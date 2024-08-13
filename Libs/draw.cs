@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace cadStart.Libs
 {
-    internal class line
+    internal class draw
     {
-        public PointF P1 { get; set; }
-        public PointF P2 { get; set; }
 
-        public float points;
     }
 }
