@@ -57,7 +57,7 @@
             // toolTip1
             // 
             this.toolTip1.AutomaticDelay = 0;
-            this.toolTip1.AutoPopDelay = 200;
+            this.toolTip1.AutoPopDelay = 0;
             this.toolTip1.InitialDelay = 0;
             this.toolTip1.ReshowDelay = 0;
             this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);

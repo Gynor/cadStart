@@ -59,13 +59,13 @@ namespace cadStart
                 {
                     Line.HandleMouseClick(e.X, e.Y, xmlHandler);  // Burada 'line' sınıfının instance'ını kullanıyoruz
                     string message = $"X={e.X}, Y={e.Y}";
-                    toolTip1.Show(message, this, e.X, e.Y);
+                    toolTip1.Show(message, this, e.X, e.Y, 600);
                 }
                 else if (activeButton == point)
                 {
                     Dot.HandleMouseClick(e.X, e.Y, xmlHandler);   // Burada 'dot' sınıfının instance'ını kullanıyoruz
                     string message = $"X={e.X}, Y={e.Y}";
-                    toolTip1.Show(message, this, e.X, e.Y);
+                    toolTip1.Show(message, this, e.X, e.Y, 600);
                 }
             }
         }
