@@ -37,7 +37,6 @@
             this.ClientSize = new System.Drawing.Size(684, 661);
             this.Name = "cadMain";
             this.Text = "cadMain";
-            this.Load += new System.EventHandler(this.cadMain_Load);
             this.ResumeLayout(false);
 
         }

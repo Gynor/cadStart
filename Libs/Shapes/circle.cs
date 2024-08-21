@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace cadStart.Libs.Shapes
 {
@@ -63,7 +65,6 @@ namespace cadStart
             }
 
             // Hesaplanan noktaları birleştirerek çemberi çizme
-            g.DrawCurve(pen, points);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

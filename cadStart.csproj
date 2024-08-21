@@ -52,7 +52,10 @@
     <Compile Include="cadMain.Designer.cs">
       <DependentUpon>cadMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Libs\xmlOperations.cs" />
+    <Compile Include="Libs\draw.cs" />
     <Compile Include="Libs\Shapes\circle.cs" />
+    <Compile Include="Libs\Shapes\dot.cs" />
     <Compile Include="Libs\Shapes\rect.cs" />
     <Compile Include="Libs\Shapes\line.cs" />
     <Compile Include="Libs\intersection.cs" />
@@ -83,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\cadData.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

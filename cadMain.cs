@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using cadStart.Libs;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace cadStart
 {
@@ -15,31 +18,23 @@ namespace cadStart
         public cadMain()
         {
             InitializeComponent();
-        }
+            this.MouseClick += new MouseEventHandler(this.OnMouseClick);
 
-        private void cadMain_Load(object sender, EventArgs e)
+            xmlOperations.CreateXmlFile();
+        }
+        private void OnMouseClick(object sender, MouseEventArgs e)
         {
+            // Capture the X and Y coordinates of the mouse click
+            float x = e.X;
+            float y = e.Y;
 
+            // Create a PointF using the captured coordinates
+            PointF clickedPoint = new PointF(x, y);
+
+            // You can now use clickedPoint for other operations
+            MessageBox.Show($"Clicked at: X={clickedPoint.X}, Y={clickedPoint.Y}");
         }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
 
-            // e.Graphics nesnesi üzerinden çizim yapıyoruz.
-            Graphics g = e.Graphics;
 
-            // Yüksek hassasiyetli çizim için SmoothingMode'u ayarlayalım
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            // Örnek olarak bir dikdörtgen çizelim
-            Pen pen = new Pen(Color.Black, 1);
-            g.DrawRectangle(pen, 50, 50, 200, 100);
-
-            // Bir daire (çember) çizelim
-            g.DrawEllipse(pen, new Rectangle(100, 100, 100, 100));
-
-            // Serbest bir çizgi çizelim
-            g.DrawLine(pen, 10, 10, 300, 200);
-        }
     }
 }
