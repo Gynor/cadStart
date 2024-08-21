@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -11,7 +12,8 @@ namespace cadStart.Libs.Shapes
 {
     internal class dot
     {
-        public void AddPoint(PointF point)
+        private PointF point; 
+        public void AddPoint(PointF Point)
         {
             // Var olan XML dosyasını yükle
             XDocument xmlDocument = XDocument.Load("cadData.xml");
@@ -21,8 +23,8 @@ namespace cadStart.Libs.Shapes
 
             // Yeni bir Point elementi oluştur
             XElement pointElement = new XElement("Point");
-            pointElement.SetAttributeValue("X", point.X);
-            pointElement.SetAttributeValue("Y", point.Y);
+            pointElement.SetAttributeValue("X", Point.X);
+            pointElement.SetAttributeValue("Y", Point.Y);
 
             // Point elementini points elementine ekle
             pointsElement.Add(pointElement);
@@ -45,6 +47,16 @@ namespace cadStart.Libs.Shapes
             pointsElement.Add(pointElement);
 
             xmlDocument.Save("cadData.xml");
+        }
+        public void HandleMouseClick(float mouseX, float mouseY, xmlOperations xmlHandler)
+        {
+        
+            point = new PointF(mouseX, mouseY);
+
+            AddPoint(point);
+
+            Console.WriteLine($"Start Point Set: ({mouseX}, {mouseY})"); 
+
         }
     }
 }

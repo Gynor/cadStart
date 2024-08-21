@@ -28,13 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.line = new System.Windows.Forms.Button();
+            this.point = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
+            // 
+            // line
+            // 
+            this.line.Location = new System.Drawing.Point(12, 12);
+            this.line.Name = "line";
+            this.line.Size = new System.Drawing.Size(68, 27);
+            this.line.TabIndex = 0;
+            this.line.Text = "line";
+            this.line.UseVisualStyleBackColor = true;
+            this.line.Click += new System.EventHandler(this.line_Click);
+            // 
+            // point
+            // 
+            this.point.Location = new System.Drawing.Point(12, 45);
+            this.point.Name = "point";
+            this.point.Size = new System.Drawing.Size(68, 27);
+            this.point.TabIndex = 1;
+            this.point.Text = "point";
+            this.point.UseVisualStyleBackColor = true;
+            this.point.Click += new System.EventHandler(this.point_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 0;
+            this.toolTip1.AutoPopDelay = 200;
+            this.toolTip1.InitialDelay = 0;
+            this.toolTip1.ReshowDelay = 0;
+            this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
             // cadMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 661);
+            this.ClientSize = new System.Drawing.Size(912, 814);
+            this.Controls.Add(this.point);
+            this.Controls.Add(this.line);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "cadMain";
             this.Text = "cadMain";
             this.ResumeLayout(false);
@@ -42,6 +77,10 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button line;
+        private System.Windows.Forms.Button point;
+        public System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
