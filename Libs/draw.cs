@@ -10,49 +10,97 @@ using System.Xml.Linq;
 
 namespace cadStart.Libs
 {
-    internal class draw
+    public class draw
     {
-        //using (Pen pen = new Pen(Color.Black, 2))
-        //{
-        //    g.DrawLine(pen, startPoint, endPoint);
-        //}
-        //using (Pen pen = new Pen(Color.Black, 2))'
-        //{
-        //    g.DrawCurve(Pen, PointF[])
-        //}
+        private List<PointF> points;
+        private List<Tuple<PointF, PointF>> lines;
 
+        public draw(string xmlFilePath)
+        {
+            points = new List<PointF>();
+            LoadPointsFromXml(xmlFilePath);
+            lines = new List<Tuple<PointF, PointF>>();
+            LoadLinesFromXml(xmlFilePath);
+        }
 
-        //private void DrawArcFloat(PaintEventArgs e)
-        //{
-        //    // Create pen.
-        //    Pen blackPen = new Pen(Color.Black, 3);
+        // XML'deki noktaları yükleme metodu
+        private void LoadPointsFromXml(string xmlFilePath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlFilePath);
 
-        //    // Create coordinates of rectangle to bound ellipse.
-        //    float x = 0.0F;
-        //    float y = 0.0F;
-        //    float width = 100.0F;
-        //    float height = 200.0F;
+            XmlNodeList pointNodes = xmlDoc.SelectNodes("/cadData/points/Point");
+            foreach (XmlNode pointNode in pointNodes)
+            {
+                float x = float.Parse(pointNode.Attributes["X"].Value);
+                float y = float.Parse(pointNode.Attributes["Y"].Value);
+                PointF point = new PointF(x, y);
+                points.Add(point);
+            }
+        }
+        private void LoadLinesFromXml(string xmlFilePath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlFilePath);
 
-        //    // Create start and sweep angles on ellipse.
-        //    float startAngle = 45.0F;
-        //    float sweepAngle = 270.0F;
+            XmlNodeList lineNodes = xmlDoc.SelectNodes("/cadData/lines/Line");
+            foreach (XmlNode lineNode in lineNodes)
+            {
+                float startX = float.Parse(lineNode.Attributes["StartX"].Value);
+                float startY = float.Parse(lineNode.Attributes["StartY"].Value);
+                float endX = float.Parse(lineNode.Attributes["EndX"].Value);
+                float endY = float.Parse(lineNode.Attributes["EndY"].Value);
 
-        //    // Draw arc to screen.
-        //    e.Graphics.DrawArc(blackPen, x, y, width, height, startAngle, sweepAngle);
-        //}
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    base.OnPaint(e);
+                PointF startPoint = new PointF(startX, startY);
+                PointF endPoint = new PointF(endX, endY);
 
-        //    // e.Graphics nesnesi üzerinden çizim yapıyoruz.
-        //    Graphics g = e.Graphics;
+                lines.Add(new Tuple<PointF, PointF>(startPoint, endPoint));
+            }
+        }
 
-        //    // Yüksek hassasiyetli çizim için SmoothingMode'u ayarlayalım
-        //    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        // Tüm noktaları içi dolu daire olarak çizdirme metodu
+        public void DrawPoints(Graphics g, Brush brush)
+        {
+            float radius = 2f;
+            // XML dosyasını yükle
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("cadData.xml");
 
-        //    // Örnek olarak bir dikdörtgen çizelim
-        //    Pen pen = new Pen(Color.Black, 1);
-        //    g.DrawRectangle(pen, 50, 50, 200, 100);
+            // Tüm Point düğümlerini seç
+            XmlNodeList pointNodes = xmlDoc.SelectNodes("/cadData/points/Point");
 
+            // Her bir Point düğümü üzerinde işlem yap
+            foreach (XmlNode pointNode in pointNodes)
+            {
+                // X ve Y değerlerini al
+                float x = float.Parse(pointNode.Attributes["X"].Value);
+                float y = float.Parse(pointNode.Attributes["Y"].Value);
+
+                // Noktayı bir daire olarak çiz
+                g.FillEllipse(brush, x - radius / 2, y - radius / 2, radius, radius);
+            }
+        }
+        public void DrawLines(Graphics g, Pen pen) 
+        {
+            // XML dosyasını yükle
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("cadData.xml");
+
+            // Tüm line düğümlerini seç
+            XmlNodeList lineNodes = xmlDoc.SelectNodes("/cadData/lines/line");
+            foreach (XmlNode lineNode in lineNodes)
+            {
+                float startX = float.Parse(lineNode.Attributes["StartX"].Value);
+                float startY = float.Parse(lineNode.Attributes["StartY"].Value);
+                float endX = float.Parse(lineNode.Attributes["EndX"].Value);
+                float endY = float.Parse(lineNode.Attributes["EndY"].Value);
+
+                PointF startPoint = new PointF(startX, startY);
+                PointF endPoint = new PointF(endX, endY);
+
+                // Çizgiyi çiz
+                g.DrawLine(pen, startPoint, endPoint);
+            }
         }
     }
+}

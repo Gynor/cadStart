@@ -37,8 +37,22 @@ namespace cadStart.Libs.Shapes
             // Çizgiyi XML dosyasına kaydet
             xmlHandler.AddLine(startX, startY, endX, endY);
 
-            xmlHandler.AddPointToXml(StartPoint);
-            xmlHandler.AddPointToXml(EndPoint);
+        }
+        public void addLineSelect(PointF startPoint, PointF endPoint, xmlOperations xmlHandler)
+        {
+            StartPoint = startPoint;
+            EndPoint = endPoint;
+
+            // Çizgiyi XML dosyasına kaydet
+            xmlHandler.AddLine(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+        }
+        public void addLineSelect(float startX, float startY, float endX, float endY, xmlOperations xmlHandler)
+        {
+            StartPoint = new PointF(startX, startY);
+            EndPoint = new PointF(endX, endY);
+
+            // Çizgiyi XML dosyasına kaydet
+            xmlHandler.AddLine(startX, startY, endX, endY);
         }
 
         public void HandleMouseClick(float mouseX, float mouseY, xmlOperations xmlHandler)
@@ -48,16 +62,40 @@ namespace cadStart.Libs.Shapes
                 StartPoint = new PointF(mouseX, mouseY);
                 isStartPointSet = true;
                 Console.WriteLine($"Start Point Set: ({mouseX}, {mouseY})");
+                xmlHandler.AddPointToXml(StartPoint);
             }
             else
             {
                 EndPoint = new PointF(mouseX, mouseY);
                 isStartPointSet = false;
-                //Console.WriteLine($"End Point Set: ({mouseX}, {mouseY})");
-
+                Console.WriteLine($"End Point Set: ({mouseX}, {mouseY})");
+                xmlHandler.AddPointToXml(EndPoint);
                 // Çizgiyi XML dosyasına kaydet
                 addLine(StartPoint, EndPoint, xmlHandler);
             }
+
+        }
+        public void HandleMouseClickSelect(float mouseX, float mouseY, xmlOperations xmlHandler)
+        {
+            if (!isStartPointSet)
+            {
+                StartPoint = new PointF(mouseX, mouseY);
+                isStartPointSet = true;
+                Console.WriteLine($"Start Select Point Set: ({mouseX}, {mouseY})");
+            }
+            else
+            {
+                EndPoint = new PointF(mouseX, mouseY);
+                isStartPointSet = false;
+                Console.WriteLine($"End Select Point Set: ({mouseX}, {mouseY})");
+                if ( EndPoint != StartPoint )
+                {   
+                    // Çizgiyi XML dosyasına kaydet
+                    addLineSelect(StartPoint, EndPoint, xmlHandler);
+                }
+
+            }
+
         }
     }
 }

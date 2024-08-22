@@ -47,6 +47,8 @@ namespace cadStart.Libs.Shapes
             pointsElement.Add(pointElement);
 
             xmlDocument.Save("cadData.xml");
+
+            Console.WriteLine("Point başarıyla XML dosyasına eklendi.");
         }
         public void HandleMouseClick(float mouseX, float mouseY, xmlOperations xmlHandler)
         {
@@ -55,7 +57,7 @@ namespace cadStart.Libs.Shapes
 
             AddPoint(point);
 
-            Console.WriteLine($"Start Point Set: ({mouseX}, {mouseY})"); 
+            Console.WriteLine($"Point Set: ({mouseX}, {mouseY})"); 
 
         }
     }
