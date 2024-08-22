@@ -22,6 +22,7 @@ namespace cadStart
         private bool isLineMode = false;
         private bool isDotMode = false;
         private System.Windows.Forms.Button activeButton;
+        private System.Windows.Forms.Button selectButton;
         xmlOperations xmlHandler = new xmlOperations();
 
         public cadMain()
@@ -73,17 +74,78 @@ namespace cadStart
 
         private void line_Click(object sender, EventArgs e)
         {
-            activeButton = line;
+            
+            if (activeButton == line)
+            {
+                activeButton = null;
+            }
+            else
+            {
+                activeButton = line;
+            }
+            UpdateButtonStyles();
         }   
 
         private void point_Click(object sender, EventArgs e)
         {
-            activeButton = point;
+            if (activeButton == point)
+            {
+                activeButton = null;
+            }
+            else
+            {
+                activeButton = point;
+            }
+            UpdateButtonStyles();
         }
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
 
+        }
+
+        private void select_Click(object sender, EventArgs e)
+        {
+
+            if (selectButton == select)
+            {
+                selectButton = null;
+            }
+            else
+            {
+                selectButton = select;
+            }
+            UpdateButtonStyles();
+        }
+        private void UpdateButtonStyles()
+        {
+            // Line butonunu kontrol et
+            if (activeButton == line)
+            {
+                line.BackColor = Color.Gray; // Buton aktifse gri renk
+            }
+            else
+            {
+                line.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
+            }
+
+            // Point butonunu kontrol et
+            if (activeButton == point)
+            {
+                point.BackColor = Color.Gray; // Buton aktifse gri renk
+            }
+            else
+            {
+                point.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
+            }
+            if (selectButton == select)
+            {
+                select.BackColor = Color.Gray; // Buton aktifse gri renk
+            }
+            else
+            {
+                select.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
+            }
         }
     }
 }
