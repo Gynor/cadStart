@@ -17,6 +17,6 @@ Some points:
 
 -Cut or Delete a *selected?* shape gonna delete formula of the shape. Existing shapes gonna redraw on the screen. 
 
--Redraw gonna research around **.Invalidate()** function class thing
-
 -I am not sure about adding keyboard shortcuts
+
+-Updated soon
