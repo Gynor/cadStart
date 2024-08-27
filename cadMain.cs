@@ -62,7 +62,7 @@ namespace cadStart
             g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
             // İstediğiniz renk ve fırça ile noktaları çizdirin
-            Brush brush = new SolidBrush(Color.Black);
+            Brush brush = new SolidBrush(Color.Blue);
 
             Pen pen = new Pen(Color.Black, 2f);
 
@@ -201,7 +201,6 @@ namespace cadStart
             }
             UpdateButtonStyles();
         }   
-
         private void point_Click(object sender, EventArgs e)
         {
             if (activeButton == point)
@@ -214,12 +213,10 @@ namespace cadStart
             }
             UpdateButtonStyles();
         }
-
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
 
         }
-
         private void select_Click(object sender, EventArgs e)
         {
 
@@ -254,6 +251,14 @@ namespace cadStart
             {
                 point.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
             }
+            if (activeButton == circle)
+            {
+                circle.BackColor = Color.Gray; // Buton aktifse gri renk
+            }
+            else
+            {
+                circle.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
+            }
             if (selectButton == select)
             {
                 select.BackColor = Color.Gray; // Buton aktifse gri renk
@@ -263,7 +268,122 @@ namespace cadStart
                 select.BackColor = SystemColors.Control; // Buton aktif değilse varsayılan renk
             }
         }
+        private void ManualLine_Click(object sender, EventArgs e)
+        {
+            using (var lineDialog = new LineInputDialog())
+            {
+                var result = lineDialog.ShowDialog();
 
+                if (result == DialogResult.OK)
+                {
+                    // Get the start and end points from the dialog
+                    var startPoint = lineDialog.StartPoint;
+                    var endPoint = lineDialog.EndPoint;
+
+                    // Use these points to add the line and save to XML
+                    var line = new line();
+
+                    line.addLineManual(startPoint, endPoint, xmlHandler);
+                    xmlHandler.AddPointToXml(startPoint);
+                    xmlHandler.AddPointToXml(endPoint);
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    // User cancelled the operation, do nothing
+                    Console.WriteLine("Operation canceled by the user.");
+                }
+            }
+            this.Invalidate();
+        }
+        private void ManualCircle_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new CircleInputDialog())
+            {
+                var result = dialog.ShowDialog();
+                if (!dialog.IsCancelled)
+                {
+                    float centerX = dialog.CenterX;
+                    float centerY = dialog.CenterY;
+                    float radius = dialog.Radius;
+                    PointF center = new PointF(centerX, centerY);
+
+                    // XML dosyasına çemberi yazma işlemi
+                    var xmlHandler = new xmlOperations();
+                    xmlHandler.AddCircle(centerX, centerY, radius,0,360);
+
+                    xmlHandler.AddPointToXml(center);
+
+                    // Çemberi çizmek için kendi yöntemlerinizi çağırabilirsiniz
+                    // DrawCircle(centerX, centerY, radius);
+                }
+                else
+                {
+                    MessageBox.Show("İşlem iptal edildi.", "İptal", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            this.Invalidate();
+        }
+        private void ManualArc_Click(object sender, EventArgs e)
+        {
+            ArcInputDialog arcInput = new ArcInputDialog();
+            arcInput.ShowDialog();
+
+            if (!arcInput.IsCancelled)
+            {
+                // Kullanıcının girdilerini alın
+                float centerX = arcInput.CenterX;
+                float centerY = arcInput.CenterY;
+                PointF center = new PointF(centerX, centerY);
+                float radius = arcInput.Radius;
+                float startAngle = arcInput.StartAngle;
+                float sweepAngle = arcInput.SweepAngle;
+
+                // Burada yay çizimi için gerekli işlemleri yapabilirsiniz
+                // Ayrıca başlangıç ve bitiş noktalarını hesaplayabilirsiniz
+                float startX = centerX + radius * (float)Math.Cos(startAngle * Math.PI / 180);
+                float startY = centerY + radius * (float)Math.Sin(startAngle * Math.PI / 180);
+                PointF start = new PointF(startX, startY);
+
+                float endX = centerX + radius * (float)Math.Cos((startAngle + sweepAngle) * Math.PI / 180);
+                float endY = centerY + radius * (float)Math.Sin((startAngle + sweepAngle) * Math.PI / 180);
+                PointF end = new PointF(endX, endY);
+
+                // XML dosyasına çemberi yazma işlemi
+                var xmlHandler = new xmlOperations();
+                xmlHandler.AddCircle(centerX, centerY, radius, startAngle, sweepAngle);
+
+                xmlHandler.AddPointToXml(center);
+                xmlHandler.AddPointToXml(start);
+                xmlHandler.AddPointToXml(end);
+
+            }
+            else
+            {
+                MessageBox.Show("İşlem iptal edildi.", "İptal", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            this.Invalidate();
+        }
+        private void ManualPoint_Click(object sender, EventArgs e)
+        {
+            PointInputDialog pointInput = new PointInputDialog();
+            pointInput.ShowDialog();
+
+            if (!pointInput.IsCancelled)
+            {
+                // Kullanıcının girdilerini alın
+                float x = pointInput.X;
+                float y = pointInput.Y;
+
+                PointF point = new PointF(x, y);
+
+                xmlHandler.AddPointToXml(point);
+            }
+            else
+            {
+                MessageBox.Show("İşlem iptal edildi.", "İptal", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            this.Invalidate();
+        }
 
     }
 }

@@ -98,5 +98,13 @@ namespace cadStart.Libs.Shapes
             }
 
         }
+        public void addLineManual(PointF startPoint, PointF endPoint, xmlOperations xmlHandler)
+        {
+            StartPoint = startPoint;
+            EndPoint = endPoint;
+
+            // Save the line to XML
+            xmlHandler.AddLine(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y);
+        }
     }
 }

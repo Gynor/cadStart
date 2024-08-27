@@ -52,6 +52,30 @@
     <Compile Include="cadMain.Designer.cs">
       <DependentUpon>cadMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Input Dialogs\CircleInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input Dialogs\CircleInputDialog.Designer.cs">
+      <DependentUpon>CircleInputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Input Dialogs\ArcInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input Dialogs\ArcInputDialog.Designer.cs">
+      <DependentUpon>ArcInputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Input Dialogs\PointInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input Dialogs\PointInputDialog.Designer.cs">
+      <DependentUpon>PointInputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Input Dialogs\LineInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Input Dialogs\LineInputDialog.Designer.cs">
+      <DependentUpon>LineInputDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Libs\Shapes\arc.cs" />
     <Compile Include="Libs\xmlOperations.cs" />
     <Compile Include="Libs\draw.cs" />
@@ -64,6 +88,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="cadMain.resx">
       <DependentUpon>cadMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Input Dialogs\CircleInputDialog.resx">
+      <DependentUpon>CircleInputDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Input Dialogs\ArcInputDialog.resx">
+      <DependentUpon>ArcInputDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Input Dialogs\LineInputDialog.resx">
+      <DependentUpon>LineInputDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Input Dialogs\PointInputDialog.resx">
+      <DependentUpon>PointInputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
