@@ -52,6 +52,7 @@
     <Compile Include="cadMain.Designer.cs">
       <DependentUpon>cadMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Libs\Shapes\arc.cs" />
     <Compile Include="Libs\xmlOperations.cs" />
     <Compile Include="Libs\draw.cs" />
     <Compile Include="Libs\Shapes\circle.cs" />

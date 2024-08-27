@@ -33,6 +33,7 @@
             this.point = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.select = new System.Windows.Forms.Button();
+            this.circle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // line
@@ -65,6 +66,7 @@
             // 
             // select
             // 
+            this.select.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.select.Location = new System.Drawing.Point(832, 12);
             this.select.Name = "select";
             this.select.Size = new System.Drawing.Size(68, 27);
@@ -73,11 +75,22 @@
             this.select.UseVisualStyleBackColor = true;
             this.select.Click += new System.EventHandler(this.select_Click);
             // 
+            // circle
+            // 
+            this.circle.Location = new System.Drawing.Point(12, 78);
+            this.circle.Name = "circle";
+            this.circle.Size = new System.Drawing.Size(68, 27);
+            this.circle.TabIndex = 3;
+            this.circle.Text = "circle";
+            this.circle.UseVisualStyleBackColor = true;
+            this.circle.Click += new System.EventHandler(this.circle_Click);
+            // 
             // cadMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(912, 814);
+            this.Controls.Add(this.circle);
             this.Controls.Add(this.select);
             this.Controls.Add(this.point);
             this.Controls.Add(this.line);
@@ -94,6 +107,7 @@
         private System.Windows.Forms.Button point;
         public System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button select;
+        private System.Windows.Forms.Button circle;
     }
 }
 

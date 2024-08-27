@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,70 +11,83 @@ namespace cadStart.Libs.Shapes
 {
     internal class circle
     {
-        /*        
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+        public PointF CenterPoint { get; set; }
+        public float Radius { get; set; }
+        public float StartAngle { get; set; } = 0;
+        public float SweepAngle { get; set; } = 360;
 
+        public PointF TempPoint { get; set; }
 
-namespace cadStart
-{
-    public partial class Form1 : Form
-    {
-        private PictureBox pictureBox;
+        private bool isCenterPointSet = false;
 
-        public Form1()
+        public void addCircle(PointF centerPoint, float radius, float startAngle, float sweepAngle, xmlOperations xmlHandler)
         {
-            // PictureBox'ı form üzerinde başlatma
-            pictureBox = new PictureBox
-            {
-                Dock = DockStyle.Fill,
-                BackColor = Color.White
-            };
-            this.Controls.Add(pictureBox);
+            CenterPoint = centerPoint;
+            Radius = radius;
+            StartAngle = startAngle;
+            SweepAngle = sweepAngle;
 
-            // Paint olayına bir event handler ekleme
-            pictureBox.Paint += pictureBox_Paint;
+            // Çemberi XML dosyasına kaydet
+            xmlHandler.AddCircle(centerPoint.X, centerPoint.Y, radius, startAngle, sweepAngle);
         }
-        public void pictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            DrawCircle(e.Graphics, 100, 100, 50, 0, 180);
 
+        public void addCircle(float centerX, float centerY, float radius, float startAngle, float sweepAngle, xmlOperations xmlHandler)
+        {
+            CenterPoint = new PointF(centerX, centerY);
+            Radius = radius;
+            StartAngle = startAngle;
+            SweepAngle = sweepAngle;
+
+            // Çemberi XML dosyasına kaydet
+            xmlHandler.AddCircle(centerX, centerY, radius, startAngle, sweepAngle);
         }
-        private void DrawCircle(Graphics g, float centerX, float centerY, float radius, float startAngle, float sweepAngle)
+
+        public void HandleMouseClick(float mouseX, float mouseY, xmlOperations xmlHandler)
         {
-            // Çizim için bir kalem oluşturma
-            Pen pen = new Pen(Color.Black, 2);
-
-            // Parametrik denklem ile çember yayının noktalarını hesaplama
-            int pointsCount = 1000; // Nokta sayısı, çizimin hassasiyetini belirler
-            PointF[] points = new PointF[pointsCount];
-
-            for (int i = 0; i < pointsCount; i++)
+            if (!isCenterPointSet)
             {
-                float theta = startAngle + (sweepAngle * i) / (pointsCount - 1);
-                double angleRad = Math.PI * theta / 180.0; // Açıyı radyana çevirme
-                float x = centerX + radius * (float)Math.Cos(angleRad);
-                float y = centerY + radius * (float)Math.Sin(angleRad);
-                points[i] = new PointF(x, y);
+                CenterPoint = new PointF(mouseX, mouseY);
+                isCenterPointSet = true;
+                Console.WriteLine($"Center Point Set: ({mouseX}, {mouseY})");
+                xmlHandler.AddPointToXml(CenterPoint);
             }
-
-            // Hesaplanan noktaları birleştirerek çemberi çizme
+            else
+            {
+                float dx = mouseX - CenterPoint.X;
+                float dy = mouseY - CenterPoint.Y;
+                Radius = (float)Math.Sqrt(dx * dx + dy * dy);
+                isCenterPointSet = false;
+                Console.WriteLine($"Radius Set: {Radius}");
+                // Çemberi XML dosyasına kaydet
+                addCircle(CenterPoint, Radius, StartAngle, SweepAngle, xmlHandler);
+            }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        public void HandleMouseClickSelect(float mouseX, float mouseY, xmlOperations xmlHandler)
         {
+            TempPoint = new PointF(mouseX, mouseY);
 
+            if (!isCenterPointSet)
+            {
+                CenterPoint = TempPoint;
+                isCenterPointSet = true;
+                Console.WriteLine($"Center Select Point Set: ({mouseX}, {mouseY})");
+            }
+            else
+            {
+                float dx = TempPoint.X - CenterPoint.X;
+                float dy = TempPoint.Y - CenterPoint.Y;
+                Radius = (float)Math.Sqrt(dx * dx + dy * dy);
+                isCenterPointSet = false;
+                Console.WriteLine($"Radius Set: {Radius}");
+                if (Radius > 0)
+                {
+                    // Çemberi XML dosyasına kaydet
+                    addCircle(CenterPoint, Radius, StartAngle, SweepAngle, xmlHandler);
+                }
+            }
         }
     }
+
 }
 
-         */
-    }
-}

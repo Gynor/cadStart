@@ -14,6 +14,7 @@ namespace cadStart.Libs.Shapes
     {
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }
+        public PointF TempPoint { get; set; }
 
         private bool isStartPointSet = false;
 
@@ -77,23 +78,23 @@ namespace cadStart.Libs.Shapes
         }
         public void HandleMouseClickSelect(float mouseX, float mouseY, xmlOperations xmlHandler)
         {
+            TempPoint = new PointF(mouseX, mouseY);
+
             if (!isStartPointSet)
             {
-                StartPoint = new PointF(mouseX, mouseY);
+                StartPoint = TempPoint;
                 isStartPointSet = true;
                 Console.WriteLine($"Start Select Point Set: ({mouseX}, {mouseY})");
             }
-            else
+            else if(StartPoint != TempPoint)
             {
-                EndPoint = new PointF(mouseX, mouseY);
+                EndPoint = TempPoint;
                 isStartPointSet = false;
                 Console.WriteLine($"End Select Point Set: ({mouseX}, {mouseY})");
-                if ( EndPoint != StartPoint )
-                {   
-                    // Çizgiyi XML dosyasına kaydet
-                    addLineSelect(StartPoint, EndPoint, xmlHandler);
-                }
 
+                // Çizgiyi XML dosyasına kaydet
+                addLineSelect(StartPoint, EndPoint, xmlHandler);
+                TempPoint = PointF.Empty;
             }
 
         }

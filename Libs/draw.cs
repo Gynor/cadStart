@@ -14,6 +14,7 @@ namespace cadStart.Libs
     {
         private List<PointF> points;
         private List<Tuple<PointF, PointF>> lines;
+        private List<Tuple<PointF, float, float, float>> circles;
 
         public draw(string xmlFilePath)
         {
@@ -21,6 +22,9 @@ namespace cadStart.Libs
             LoadPointsFromXml(xmlFilePath);
             lines = new List<Tuple<PointF, PointF>>();
             LoadLinesFromXml(xmlFilePath);
+            circles = new List<Tuple<PointF, float, float, float>>();
+            LoadCirclesFromXml(xmlFilePath);
+
         }
 
         // XML'deki noktaları yükleme metodu
@@ -55,6 +59,25 @@ namespace cadStart.Libs
                 PointF endPoint = new PointF(endX, endY);
 
                 lines.Add(new Tuple<PointF, PointF>(startPoint, endPoint));
+            }
+        }
+        private void LoadCirclesFromXml(string xmlFilePath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlFilePath);
+
+            XmlNodeList circleNodes = xmlDoc.SelectNodes("/cadData/circles/Circle");
+            foreach (XmlNode circleNode in circleNodes)
+            {
+                float centerX = float.Parse(circleNode.Attributes["CenterX"].Value);
+                float centerY = float.Parse(circleNode.Attributes["CenterY"].Value);
+                float radius = float.Parse(circleNode.Attributes["Radius"].Value);
+                float startAngle = float.Parse(circleNode.Attributes["StartAngle"].Value);
+                float sweepAngle = float.Parse(circleNode.Attributes["SweepAngle"].Value);
+
+                PointF centerPoint = new PointF(centerX, centerY);
+
+                circles.Add(new Tuple<PointF, float, float, float>(centerPoint, radius, startAngle, sweepAngle));
             }
         }
 
@@ -101,6 +124,42 @@ namespace cadStart.Libs
                 // Çizgiyi çiz
                 g.DrawLine(pen, startPoint, endPoint);
             }
+        }
+        public void DrawCircle(Graphics g, Pen pen) 
+        {
+            // XML dosyasını yükle
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("cadData.xml");
+
+            // Tüm circle düğümlerini seç
+            XmlNodeList circleNodes = xmlDoc.SelectNodes("/cadData/circles/circle");
+            foreach (XmlNode circleNode in circleNodes)
+            {
+                float centerX = float.Parse(circleNode.Attributes["CenterX"].Value);
+                float centerY = float.Parse(circleNode.Attributes["CenterY"].Value);
+                float radius = float.Parse(circleNode.Attributes["Radius"].Value);
+                float startAngle = float.Parse(circleNode.Attributes["StartAngle"].Value);
+                float sweepAngle = float.Parse(circleNode.Attributes["SweepAngle"].Value);
+
+                PointF centerPoint = new PointF(centerX, centerY);
+
+                // Çemberin dışını saran dikdörtgeni belirleyin
+                RectangleF rect = new RectangleF(
+                    centerPoint.X - radius,
+                    centerPoint.Y - radius,
+                    2 * radius,
+                    2 * radius);
+
+                // Belirtilen açılarla yay çizin
+                g.DrawArc(pen, rect, startAngle, sweepAngle);
+            }
+
+        }
+        public void DrawArc(Graphics graphics, Pen pen)
+        {
+            // XML dosyasını yükle
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("cadData.xml");
         }
     }
 }

@@ -16,11 +16,13 @@ namespace cadStart.Libs
             // Root elementleri oluştur
             XElement points = new XElement("points");
             XElement lines = new XElement("lines");
+            XElement circles = new XElement("circles");
 
             // Root elementi oluştur ve alt elementleri ekle
             XElement root = new XElement("cadData");
             root.Add(points);
             root.Add(lines);
+            root.Add(circles);
 
             // XML belgesini oluştur
             XDocument xmlDocument = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), root);
@@ -63,9 +65,36 @@ namespace cadStart.Libs
             lineElement.SetAttributeValue("EndX", endX);
             lineElement.SetAttributeValue("EndY", endY);
 
+            // Formula elementi ekle
+            XElement formulaElement = new XElement("formula", "Line Formula Example"); // Example formula
+            lineElement.Add(formulaElement);
+
             linesElement.Add(lineElement);
 
             xmlDocument.Save("cadData.xml");
+        }
+        public void AddCircle(float centerX, float centerY, float radius, float startAngle, float sweepAngle)
+        {
+            XDocument xmlDocument = XDocument.Load("cadData.xml");
+
+            XElement circlesElement = xmlDocument.Element("cadData").Element("circles");
+
+            XElement circleElement = new XElement("circle");
+            circleElement.SetAttributeValue("CenterX", centerX);
+            circleElement.SetAttributeValue("CenterY", centerY);
+            circleElement.SetAttributeValue("Radius", radius);
+            circleElement.SetAttributeValue("StartAngle", startAngle);
+            circleElement.SetAttributeValue("SweepAngle", sweepAngle);
+
+            // Formula elementi ekle
+            XElement formulaElement = new XElement("formula", "Circle Formula Example"); // Example formula
+            circleElement.Add(formulaElement);
+
+            circlesElement.Add(circleElement);
+
+            xmlDocument.Save("cadData.xml");
+
+            Console.WriteLine("Circle başarıyla XML dosyasına eklendi.");
         }
 
     }
