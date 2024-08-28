@@ -100,19 +100,6 @@ namespace cadStart
 
             Draw.DrawCircle(g, pen);
         }   
-        //private void OnMouseClick(object sender, MouseEventArgs e)
-        //{
-        //    // Capture the X and Y coordinates of the mouse click
-        //    float x = e.X;
-        //    float y = e.Y;
-
-        //    // Create a PointF using the captured coordinates
-        //    PointF clickedPoint = new PointF(x, y);
-
-        //    // You can now use clickedPoint for other operations
-        //   // MessageBox.Show($"Clicked at: X={clickedPoint.X}, Y={clickedPoint.Y}");
-        //}
-
         private void cadMain_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -143,10 +130,8 @@ namespace cadStart
                         {
                             minDistance = distance;
                             closestPoint = point;
-                        }
-                        
+                        }               
                     }
-
                     if (closestPoint.HasValue)
                     {
                         selectedPoint = closestPoint;
@@ -166,22 +151,14 @@ namespace cadStart
                         toolTip1.Show(message, this, e.X, e.Y, 600);
                         this.Invalidate();
                     }
-                    //else if (activeButton == point)
-                    //{
-                    //    Dot.HandleMouseClick(e.X, e.Y, xmlHandler);   // Burada 'dot' sınıfının instance'ını kullanıyoruz
-                    //    string message = $"X={e.X}, Y={e.Y}";
-                    //    toolTip1.Show(message, this, e.X, e.Y, 600);
-                    //}
                 }
                 else
                 {
-
                     if (activeButton == line)
                     {
                         Line.HandleMouseClick(e.X, e.Y, xmlHandler);  // Burada 'line' sınıfının instance'ını kullanıyoruz
                         string message = $"X={e.X}, Y={e.Y}";
                         toolTip1.Show(message, this, e.X, e.Y, 600);
-
                         this.Invalidate();
                     }
                     else if (activeButton == point)
@@ -189,7 +166,6 @@ namespace cadStart
                         Dot.HandleMouseClick(e.X, e.Y, xmlHandler);   // Burada 'dot' sınıfının instance'ını kullanıyoruz
                         string message = $"X={e.X}, Y={e.Y}";
                         toolTip1.Show(message, this, e.X, e.Y, 600);
-
                         this.Invalidate();
                     }
                     else if (activeButton == circle)
@@ -197,7 +173,6 @@ namespace cadStart
                         Circle.HandleMouseClick(e.X, e.Y, xmlHandler);   // Burada 'circle' sınıfının instance'ını kullanıyoruz
                         string message = $"X={e.X}, Y={e.Y}";
                         toolTip1.Show(message, this, e.X, e.Y, 600);
-
                         this.Invalidate();
                     }
                 }
@@ -222,8 +197,7 @@ namespace cadStart
             UpdateButtonStyles();
         }
         private void line_Click(object sender, EventArgs e)
-        {
-            
+        { 
             if (activeButton == line)
             {
                 activeButton = null;
