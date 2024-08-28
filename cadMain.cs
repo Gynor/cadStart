@@ -12,11 +12,23 @@ using System.Xml;
 using System.Xml.Linq;
 using cadStart.Libs.Shapes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Threading;
 
 namespace cadStart
 {
     public partial class cadMain : Form
     {
+        private float zoomLevel = 1.0f;
+        private const float maxZoomLevel = 1000.0f;
+        private const float minZoomLevel = 0.1f;
+        private PointF panOffset = PointF.Empty;
+        private PointF panStartPoint = Point.Empty;
+        private bool isPanning = false;
+        PointF  lastMousePosition = PointF.Empty;
+        private PointF originOffset; // Merkez noktası için offset
+
+
+
         private line Line;
         private dot Dot;
         private circle  Circle;
@@ -28,12 +40,21 @@ namespace cadStart
         xmlOperations xmlHandler = new xmlOperations();
         private PointF? selectedPoint = null;
 
+
+
         public cadMain()
         {
             InitializeComponent();
             //this.MouseClick += new MouseEventHandler(this.OnMouseClick);
 
+            this.MouseWheel += new MouseEventHandler(cadStart_MouseWheel);
+
             this.MouseDown += new MouseEventHandler(cadMain_MouseDown);
+
+            this.MouseUp += new MouseEventHandler(cadStart_MouseUp);
+
+            this.MouseMove += new MouseEventHandler(OnMouseMove);
+
             // XML dosyasını oluştur
             xmlHandler.CreateXmlFile();
 
@@ -61,18 +82,24 @@ namespace cadStart
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
+            //e.Graphics.TranslateTransform(ClientSize.Width / 2, ClientSize.Height / 2); // Ortaya taşıma
+            e.Graphics.TranslateTransform(panOffset.X, panOffset.Y);
+            e.Graphics.ScaleTransform(zoomLevel, zoomLevel);
+
+            zoomLabel.Text = $"Zoom: {zoomLevel:F2}x";
+
             // İstediğiniz renk ve fırça ile noktaları çizdirin
             Brush brush = new SolidBrush(Color.Blue);
 
-            Pen pen = new Pen(Color.Black, 2f);
+            Pen pen = new Pen(Color.Black, 2f/zoomLevel);
 
 
-            Draw.DrawPoints(g,brush);
+            Draw.DrawPoints(g,brush, zoomLevel);
 
             Draw.DrawLines(g, pen);
 
             Draw.DrawCircle(g, pen);
-        }
+        }   
         //private void OnMouseClick(object sender, MouseEventArgs e)
         //{
         //    // Capture the X and Y coordinates of the mouse click
@@ -174,6 +201,12 @@ namespace cadStart
                         this.Invalidate();
                     }
                 }
+            }
+            if (e.Button == MouseButtons.Middle)
+            {
+                isPanning = true;
+                lastMousePosition = e.Location;
+                Cursor = Cursors.Hand; // Pan sırasında el ikonuna geç
             }
         }
         private void circle_Click(object sender, EventArgs e)
@@ -385,5 +418,69 @@ namespace cadStart
             this.Invalidate();
         }
 
+        private void cadMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cadStart_MouseWheel(object sender, MouseEventArgs e)
+        {
+            float zoomFactor = 1.2f;  // Zoom katsayısı
+            PointF mousePosition = e.Location;
+
+            PointF screenPosition = new PointF(
+             (mousePosition.X - ClientSize.Width / 2 - panOffset.X) / zoomLevel,
+             -(mousePosition.Y - ClientSize.Height / 2 - panOffset.Y) / zoomLevel
+   );
+
+            if (e.Delta > 0) // Zoom in
+            {
+                zoomLevel *= zoomFactor;
+            }
+            else if (e.Delta < 0) // Zoom out
+            {
+                zoomLevel /= zoomFactor;
+            }
+
+            // Zoom yaptıktan sonra mouse konumunu koruyarak kaydırma
+            float newPanX = (mousePosition.X - panOffset.X) * zoomFactor - mousePosition.X;
+            float newPanY = (mousePosition.Y - panOffset.Y) * zoomFactor - mousePosition.Y;
+
+            panOffset.X += newPanX;
+            panOffset.Y += newPanY;
+
+            zoomLabel.Text = $"Zoom: {zoomLevel:F1}"; // Zoom seviyesini güncelle
+            this.Invalidate();  // Ekranı yeniden çiz
+        }
+
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (isPanning)
+            {
+                // Pan işlemi
+                panOffset.X += (e.X - lastMousePosition.X) / zoomLevel;
+                panOffset.Y += (e.Y - lastMousePosition.Y) / zoomLevel;
+                lastMousePosition = e.Location;
+
+                this.Invalidate(); // Ekranı yeniden çiz
+            }
+        }
+        private void cadStart_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                isPanning = false;
+                Cursor = Cursors.Default; // Pan sona erince imleci varsayılan yap
+            }
+        }
+        private void Home_Click(object sender, EventArgs e)
+        {
+            zoomLevel = 1.0f;
+            panOffset = PointF.Empty;
+
+            this.Invalidate();  // Ekranı yeniden çiz
+        }
     }
 }

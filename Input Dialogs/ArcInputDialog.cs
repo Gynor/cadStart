@@ -45,5 +45,10 @@ namespace cadStart
             IsCancelled = true; // İptal durumunu kaydet
             this.Close();
         }
+
+        private void ArcInputDialog_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

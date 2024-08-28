@@ -38,6 +38,8 @@
             this.ManualCircle = new System.Windows.Forms.Button();
             this.ManualArc = new System.Windows.Forms.Button();
             this.ManualPoint = new System.Windows.Forms.Button();
+            this.zoomLabel = new System.Windows.Forms.Label();
+            this.Home = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // line
@@ -137,11 +139,34 @@
             this.ManualPoint.UseVisualStyleBackColor = true;
             this.ManualPoint.Click += new System.EventHandler(this.ManualPoint_Click);
             // 
+            // zoomLabel
+            // 
+            this.zoomLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.zoomLabel.AutoEllipsis = true;
+            this.zoomLabel.AutoSize = true;
+            this.zoomLabel.Location = new System.Drawing.Point(713, 17);
+            this.zoomLabel.MinimumSize = new System.Drawing.Size(68, 27);
+            this.zoomLabel.Name = "zoomLabel";
+            this.zoomLabel.Size = new System.Drawing.Size(68, 27);
+            this.zoomLabel.TabIndex = 7;
+            // 
+            // Home
+            // 
+            this.Home.Location = new System.Drawing.Point(716, 47);
+            this.Home.Name = "Home";
+            this.Home.Size = new System.Drawing.Size(68, 27);
+            this.Home.TabIndex = 8;
+            this.Home.Text = "Home";
+            this.Home.UseVisualStyleBackColor = true;
+            this.Home.Click += new System.EventHandler(this.Home_Click);
+            // 
             // cadMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(912, 814);
+            this.Controls.Add(this.Home);
+            this.Controls.Add(this.zoomLabel);
             this.Controls.Add(this.ManualPoint);
             this.Controls.Add(this.ManualArc);
             this.Controls.Add(this.ManualCircle);
@@ -153,7 +178,9 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "cadMain";
             this.Text = "cadMain";
+            this.Load += new System.EventHandler(this.cadMain_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -168,6 +195,8 @@
         private System.Windows.Forms.Button ManualCircle;
         private System.Windows.Forms.Button ManualArc;
         private System.Windows.Forms.Button ManualPoint;
+        private System.Windows.Forms.Label zoomLabel;
+        private System.Windows.Forms.Button Home;
     }
 }
 

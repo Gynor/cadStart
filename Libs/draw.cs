@@ -82,9 +82,9 @@ namespace cadStart.Libs
         }
 
         // Tüm noktaları içi dolu daire olarak çizdirme metodu
-        public void DrawPoints(Graphics g, Brush brush)
+        public void DrawPoints(Graphics g, Brush brush,float zoomLevel)
         {
-            float radius = 4f;
+            float radius = 4f/zoomLevel;
             // XML dosyasını yükle
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("cadData.xml");

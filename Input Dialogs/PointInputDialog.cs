@@ -36,5 +36,10 @@ namespace cadStart
             IsCancelled = true; // İptal durumunu kaydet
             this.Close();
         }
+
+        private void PointInputDialog_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

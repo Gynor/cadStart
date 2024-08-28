@@ -89,6 +89,7 @@
             this.Name = "PointInputDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Point Input";
+            this.Load += new System.EventHandler(this.PointInputDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -149,6 +149,7 @@
             this.Name = "ArcInputDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Arc Input";
+            this.Load += new System.EventHandler(this.ArcInputDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
