@@ -152,6 +152,7 @@
             // 
             // Home
             // 
+            this.Home.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Home.Location = new System.Drawing.Point(716, 47);
             this.Home.Name = "Home";
             this.Home.Size = new System.Drawing.Size(68, 27);
