@@ -7,7 +7,7 @@ For now I planned to create equation based shapes and shapes memory.
 
 Any kind of help really appreciated.
 
-Some points:
+### Some points:
 
 -Drawing separate from formulas
 
@@ -20,3 +20,7 @@ Some points:
 -I am not sure about adding keyboard shortcuts
 
 -I don't work on the project anymore.
+
+## Current Interface of App
+
+<img width="687" height="692" alt="Screenshot 2026-01-25 154109" src="https://github.com/user-attachments/assets/35cbe00f-1ebf-475d-ae48-dc4e2480971f" />
