@@ -19,4 +19,4 @@ Some points:
 
 -I am not sure about adding keyboard shortcuts
 
--Updated soon
+-I don't work on the project anymore.
